@@ -6,7 +6,7 @@ default:
 
 dist:
 	@mkdir -p tmp
-	@cd wizard && zip -r ../tmp/esensors-websensor.zip *
+	@zip -r tmp/esensors-websensor.zip esensors-websensor
 	@echo built tmp/esensors-websensor.zip
 
 test:
@@ -14,3 +14,5 @@ test:
 
 clean:
 	rm -rf tmp/
+
+.PHONY: default dist test clean

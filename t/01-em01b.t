@@ -36,81 +36,81 @@ my $cases = [
     },
 
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--type=temp --temp=65/75,60/80 --host 127.0.0.1 --port 12345 --device em01',
         'expect' => 'CRITICAL HIGH Temperature (>80) - Temp: 80.6 F|temperature=80.6F;;;; ',
     },
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--type hum --hum=10/40,10/50 --host 127.0.0.1 --port 12345 --device em01',
         'expect' => 'Humidity: 19.7%|humidity=19.7%;;;; ',
     },
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--type illum --illum=10/70,0/80 --host 127.0.0.1 --port 12345 --device em01',
         'expect' => 'WARNING LOW Illumination (<10) - Illum: 4.1|illumination=4.1;;;; ',
     },
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--type all --temp=65/75,60/80 --hum=30/40,25/50 --illum=40/70,30/80 --host 127.0.0.1 --port 12345 --device em01',
         'expect' => 'CRITICAL HIGH Temperature (>80) - ; CRITICAL LOW Humidity (<25) - ; CRITICAL LOW Illumination (<30) - Temp: 80.6 F, Humidity: 19.7%, Illum: 4.1',
     },
 
 
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--sensor temperature --limits=65/75,60/80 --host 127.0.0.1 --port 12345 --url',
         'expect' => 'Temperature: 73.5 F|Temperature=73.5F;;;;',
     },
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--sensor light --limits=65/75,60/80 --host 127.0.0.1 --port 12345',
         'expect' => 'CRITICAL HIGH Il0 (>80) - Illumination: 124.3|Illumination=124.3;;;;',
     },
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--sensor humidity --limits=65/75,10/80 --host 127.0.0.1 --port 12345',
         'expect' => 'WARNING LOW Hu0 (<65) - Humidity: 32.7|Humidity=32.7;;;;',
     },
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--sensor voltage --limits=65/75,60/80 --host 127.0.0.1 --port 12345',
         'expect' => 'UNKNOWN: sensor [Voltage (voltage)]: field evin is [none];sensor is not present on the device',
     },
 
 
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--sensor temperature --limits=65/75,60/80 --host 127.0.0.1 --port 12345 --url status.xml',
         'expect' => 'CRITICAL HIGH Tm0 (>80) - Temperature: 80.78 F|Temperature=80.78F;;;;',
     },
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--sensor light --limits=65/75,60/80 --host 127.0.0.1 --port 12345 --url status.xml',
         'expect' => 'WARNING HIGH Il0 (>75) - Illumination: 76.61|Illumination=76.61;;;;',
     },
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--sensor humidity --limits=65/75,10/80 --host 127.0.0.1 --port 12345 --url status.xml',
         'expect' => 'WARNING LOW Hu0 (<65) - Humidity: 40.84|Humidity=40.84;;;;',
     },
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--sensor voltage --limits=65/75,60/80 --host 127.0.0.1 --port 12345 --url status.xml',
         'expect' => 'CRITICAL LOW Vin (<60) - Voltage: 0.00|Voltage=0.00;;;;',
     },
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--sensor thermistor --limits=65/75,60/80 --host 127.0.0.1 --port 12345 --url status.xml',
         'expect' => 'WARNING HIGH Thm (>75) - Thermistor: 77.08|Thermistor=77.08;;;;',
     },
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--sensor contact --limits=0,0 --host 127.0.0.1 --port 12345 --url status.xml',
         'expect' => 'Contact: 1|Contact=1;;;;',
     },
     {
-        'cmd' => 'wizard/plugins/check_esensor.pl',
+        'cmd' => 'esensors-websensor/plugins/check_esensor.pl',
         'params' => '--sensor flood --limits=1,0 --host 127.0.0.1 --port 12345 --url status.xml',
         'expect' => 'WARNING Fin (=1) - Flood: 1|Flood=1;;;;',
     },

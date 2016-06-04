@@ -294,13 +294,13 @@ function esensors_websensor_configwizard_func($mode = "", $inargs = null, &$outa
     </tr>
     <tr>
         <td valign="top">
-            <input type="checkbox" class="checkbox" name="services[doorSwitch]" >
+            <input type="checkbox" class="checkbox" name="services[contact]" >
         </td>
         <td>
             <b>'.gettext('Contact Switch / Door sensor').'</b><br>
             '.gettext('Monitors Contact switch, Door open/close status').'.<br><br>
-            <input type="radio" name="serviceargs[doorSwitch]" value="0" checked />Alarm if Door is Open<br>
-            <input type="radio" name="serviceargs[doorSwitch]" value="1" /> Alarm if Door is Closed<br>
+            <input type="radio" name="serviceargs[contact]" value="0" checked />Alarm if there\'s no contact<br>
+            <input type="radio" name="serviceargs[contact]" value="1" /> Alarm if there\'s contact<br>
             <br><br>
         </td>
     </tr>
@@ -421,7 +421,7 @@ function esensors_websensor_configwizard_func($mode = "", $inargs = null, &$outa
                     "ch" => "temp_critical_high",
                     "service_description" => "Temperature",
                     "xml_check_command" => "check_em08_temp",
-                    "text_check_command" => "check_em01_temp",
+                    "text_check_command" => "check_esensor_temp_txt",
                 ),
                 "humidity" => array (
                     "wl" => "humidity_warning_low",
@@ -429,8 +429,8 @@ function esensors_websensor_configwizard_func($mode = "", $inargs = null, &$outa
                     "cl" => "humidity_critical_low",
                     "ch" => "humidity_critical_high",
                     "service_description" => "Humidity",
-                    "xml_check_command" => "check_em08_humidity",
-                    "text_check_command" => "check_em01_humidity",
+                    "xml_check_command" => "check_esensor_humidity",
+                    "text_check_command" => "check_esensor_humidity_txt",
                 ),
                 "illumination" => array (
                     "wl" => "illumination_warning_low",
@@ -438,8 +438,8 @@ function esensors_websensor_configwizard_func($mode = "", $inargs = null, &$outa
                     "cl" => "illumination_critical_low",
                     "ch" => "illumination_critical_high",
                     "service_description" => "Illumination",
-                    "xml_check_command" => "check_em08_light",
-                    "text_check_command" => "check_em01_light",
+                    "xml_check_command" => "check_esensor_light",
+                    "text_check_command" => "check_esensor_light_txt",
                 ),
                 "thermistor" => array (
                     "wl" => "thm_warning_low",
@@ -447,7 +447,7 @@ function esensors_websensor_configwizard_func($mode = "", $inargs = null, &$outa
                     "cl" => "thm_critical_low",
                     "ch" => "thm_critical_high",
                     "service_description" => "Thermistor",
-                    "xml_check_command" => "check_em08_thermistor",
+                    "xml_check_command" => "check_esensor_thermistor",
                 ),
                 "voltage" => array (
                     "wl" => "volt_warning_low",
@@ -455,19 +455,19 @@ function esensors_websensor_configwizard_func($mode = "", $inargs = null, &$outa
                     "cl" => "volt_critical_low",
                     "ch" => "volt_critical_high",
                     "service_description" => "Voltage",
-                    "xml_check_command" => "check_em08_voltage",
+                    "xml_check_command" => "check_esensor_voltage",
                 ),
-                "doorSwitch" => array (
-                    "warn" => "doorSwitch",
-                    "crit" => "doorSwitch",
-                    "service_description" => "Door Switch",
-                    "xml_check_command" => "check_em08_contact",
+                "contact" => array (
+                    "warn" => "contact",
+                    "crit" => "contact",
+                    "service_description" => "Contact sensor",
+                    "xml_check_command" => "check_esensor_contact",
                 ),
                 "floodSensor" => array (
-                    "warn" => "doorSwitch",
-                    "crit" => "doorSwitch",
-                    "service_description" => "Door Switch",
-                    "xml_check_command" => "check_em08_contact",
+                    "warn" => "floodSensor",
+                    "crit" => "floodSensor",
+                    "service_description" => "Flood sensor",
+                    "xml_check_command" => "check_esensor_flood",
                 ),
             );
 
