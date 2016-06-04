@@ -146,18 +146,28 @@ if ($opt_timeout eq 'default') {
     $opt_timeout = $TIMEOUT;
 }
 
-if ($opt_device ne 'em01' && !$opt_typ) {
-    &syntax();
+if ($opt_device eq 'em01') {
+    if ($opt_typ eq 'all') {
+        $opt_typ = '';
+    }
 }
-if (! defined($sensors->{$opt_typ})) {
-    &syntax();
+else {
+    if (!$opt_typ || !defined($sensors->{$opt_typ})) {
+        &syntax();
+    }
 }
+
 if (!$opt_url) {
     if ($opt_device eq 'em01') {
         $opt_url = "/index.html?em345678";
     }
     else {
         $opt_url = "/ssetings.xml";
+    }
+}
+else {
+    if ($opt_url !~ /^\//) {
+        $opt_url = "/" . $opt_url;
     }
 }
 
@@ -171,7 +181,7 @@ my $condition = $ERRORS{'OK'};
 if ($opt_device eq 'xml') {
     if (! defined($vals->{$sensors->{$opt_typ}->{'flag'}})) {
         return_nagios_status('UNKNOWN', "UNKNOWN: sensor [$sensors->{$opt_typ}->{'name'} ($opt_typ)] " .
-            "(field $sensors->{$opt_typ}->{'flag'}) is not present on the device");
+            "(field $sensors->{$opt_typ}->{'flag'}) is not present on the device 1");
     }
     if ($vals->{$sensors->{$opt_typ}->{'flag'}} ne 'inline') {
         return_nagios_status('UNKNOWN', "UNKNOWN: sensor [$sensors->{$opt_typ}->{'name'} ($opt_typ)]: ".
@@ -180,7 +190,7 @@ if ($opt_device eq 'xml') {
     }
     if (! defined($vals->{$sensors->{$opt_typ}->{'value'}})) {
         return_nagios_status('UNKNOWN', "UNKNOWN: sensor [$sensors->{$opt_typ}->{'name'} ($opt_typ)] " .
-            "(field $sensors->{$opt_typ}->{'value'}) is not present on the device");
+            "(field $sensors->{$opt_typ}->{'value'}) is not present on the device 2");
     }
 
     my @limits = split(/[\/\,\ ]/, $opt_limits);
@@ -195,6 +205,9 @@ if ($opt_device eq 'xml') {
         elsif ($limits[0] ne 'x' && $vals->{$sensors->{$opt_typ}->{'value'}} eq $limits[0]) {
             push(@msgs, "WARNING $uctype (=" . $vals->{$sensors->{$opt_typ}->{'value'}} . ") - ");
             $condition = 'WARNING';
+        }
+        else {
+            $condition = 'OK';
         }
     }
     else {
@@ -240,7 +253,7 @@ elsif ($opt_device eq 'em01') {
       print "Illum: $vals->{'illumination'}\n";
     } else {
       if ($opt_typ eq "temp") {
-        my @temp = split(/[\/,]/, $opt_temp || $opt_limits);
+        my @temp = split(/[\/,]/, $opt_temp);
         $condition = check_value('temperature', $vals, @temp);
 
         if ($#msgs > -1) {
@@ -251,7 +264,7 @@ elsif ($opt_device eq 'em01') {
         print "|";
         print "temperature=$vals->{'temperature'}$vals->{'temp-unit'};;;; \n";
       } elsif ($opt_typ eq "hum") {
-        my @hum = split(/[\/,]/, $opt_hum || $opt_limits);
+        my @hum = split(/[\/,]/, $opt_hum);
         $condition = check_value('humidity', $vals, @hum);
 
         if ($#msgs > -1) {
@@ -262,7 +275,7 @@ elsif ($opt_device eq 'em01') {
         print "|";
         print "humidity=$vals->{'humidity'}%;;;; \n";
       } elsif ($opt_typ eq "illum") {
-        my @illum = split(/[\/,]/, $opt_illum || $opt_limits);
+        my @illum = split(/[\/,]/, $opt_illum);
         $condition = check_value('illumination', $vals, @illum);
 
         if ($#msgs > -1) {
@@ -347,9 +360,11 @@ Mandatory parameters:
     should be one of (note few aliases which are interchangable):
     } . syntax_sensors_list("    ") . qq{
   --limits <WARN_LOW/WARN_HIGH,CRIT_LOW/CRIT_HIGH>
-    two ranges of allowed sensor values in the form of LOW,HIGH;
-    if sensor value is outside of the range, alert is raised.
-    use 'x' instead of value to specify infinity.
+    either two ranges of allowed sensor values in the form of LOW,HIGH
+    or two boolean values (for contact and flood sensors).
+    if sensor value is outside of the range or is not equal to the value,
+    alert is raised.
+    use 'x' instead of value to specify infinity in ranges.
 
 Optional parameters:
   --port=x
@@ -412,6 +427,7 @@ sub read_sensor {
 
             # read in all the response, waiting for the sensor data end
             READ_REMOTE: while (my $l = <$remote>) {
+#                print $l;
                 $response .= $l;
 
                 if ($response =~ /(<sensorsSW>.+<\/sensorsSW>)/s) {

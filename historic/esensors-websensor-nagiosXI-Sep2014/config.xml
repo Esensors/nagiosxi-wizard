@@ -1,0 +1,12 @@
+<configwizard>
+	<templates>
+		<template filename="websensor.cfg" />
+	</templates>
+	<logos>
+		<logo filename="em01.png" />
+	</logos>
+	<plugins>
+		<plugin filename="check_em01.pl" />
+		<plugin filename="check_em08" />
+	</plugins>
+</configwizard>

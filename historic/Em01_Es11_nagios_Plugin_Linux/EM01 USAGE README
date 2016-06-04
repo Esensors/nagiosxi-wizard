@@ -1,0 +1,166 @@
+################################################################################
+
+Esensors EM01 Plugin (C VERSION).
+Last Updated: January 2009
+Description: This plugin reports the temperature, humidity and illumination
+		 from an eSensors EM01 HVAC Monitor.
+		 
+File name: check_em01.c
+
+Language: C
+
+OS: Unix/Linux/Solaris
+
+Contact Us:
+4240 Ridge Lea Rd
+Suite 37
+Amherst, NY 14226
+
+Tel: (716) 837-8719
+Fax: (716) 837-8740
+Email: TechHelp@eEsensors.com
+
+########## COMPILE ###########
+##############################
+
+To compile, you will need GNU C compiler 'gcc' and all standard libraries 
+installed. The gcc version we tested with is 3.2.2 but it should be able to 
+work with any other versions, too.
+
+At the prompt:
+ gcc check_em01.c -o check_em01
+
+** For Solaris users only, use the following instead **
+ gcc check_em01.c -o check_em01 -DBSD_COMP -lsocket -lnsl
+
+*** For machines running 64-bits gcc, use this command instead ***
+ gcc check_em01.c -m32 -o check_em01 
+ 
+ This will create the executable 'check_em01'.
+ 
+########## BASIC USAGE #######
+##############################
+
+To use the plugin: 
+ check_em01 [hostname] [T/H/I/G] [LowWarning HighWarning LowCritical HighCritical]
+
+Only the hostname is mandatory. The rest of the arguments are optional.
+T is for Temperature data, H for Humidity data and I for Illumination data.
+Note that the warning and critical limit pairs, if specified, MUST be 
+specified together. You cannot just specify the warning limits without the 
+critical limits or vice versa.
+
+Examples:
+This will return all HVAC data: 
+ check_em01 192.168.0.2
+Sample Output:
+ TF: 82.5HU:18.8%IL 179.5        Mon Apr 11 13:05:16 2005
+
+This will return only Illumination data: 
+ check_em01 192.168.0.2 I
+Sample Output:
+ (No limits specified) 179.5 | Illum=179.5
+
+This will return temperature data with status: 
+ check_em01 192.168.0.2 T 65 85 60 90
+Sample Output:
+ OK  82.3 F | TempF=82.3
+
+This will return humidity data with status: 
+ check_em01 192.168.0.2 H 25.5 50 15 70.5
+Sample Output:
+ WARNING ( 25.5< or >50 ) Humidity: 19.1% | Humid=19.1
+
+This will return all sensor data with Cacti/RRDTool compatible format:
+ check_em01 192.168.0.2 G
+Sample Output:
+ Temp:71.01 Humid:12.91 Illum:388.21
+ 
+####### ADDITIONAL USAGE #####
+##############################
+
+If you have the contacts closure module:
+ check_em01 [hostname] C
+
+Examples:
+This will return contacts closure status:
+ check_em01 192.168.0.2 C
+Sample Output:
+ OK Contacts Close
+ 		or
+ CRITICAL Contacts Open!
+
+If you have the voltage measurement module:
+  check_em01 [hostname] V [LowWarning HighWarning LowCritical HighCritical]
+The hostname and 'V' is mandatory. The warning & critical limits are optional.
+Examples:
+This will return the voltage reading:
+ check_em01 192.168.0.2 V
+Sample Output:
+  (No limits specified) 12.5 V | Voltage=12.5
+
+This will return the voltage reading with status:
+ check_em01 192.168.0.2 V 11 13 10 14
+Sample Output:
+  OK 12.5 V | Voltage=12.5
+  
+If you have the RTD Temperature or Thermistor module:
+  check_em01 [hostname] R [LowWarning HighWarning LowCritical HighCritical]
+The hostname and 'R' is mandatory. The warning & critical limits are optional.
+Examples:
+This will return the RTD temperature reading:
+ check_em01 192.168.0.2 R
+Sample Output:
+  (No limits specified) Ext. Temperature:  82.3 F | XTempF=82.3
+
+This will return RTD temperature data with status: 
+ check_em01 192.168.0.2 R 65 85 60 90
+Sample Output:
+ OK Ext. Temperature: 82.3 F | XTempF=82.3
+
+#####################################
+########## NAGIOS INSTALLATION ######
+
+Please refer to Application Note AN1002 available from our Website
+or in the CD included with your purchase.
+
+#####################################
+########## CACTI INSTALLATION ######
+
+Please refer to Application Note AN1006 available from our Website
+or in the CD included with your purchase.
+
+   
+########## DEBUGGING #########
+##############################
+
+If you are having trouble with the plugin, you can try to debug it.
+Edit the file check_em01.c and change line #3 from '#undef' to '#define'
+
+1	/* Print Debug Info....
+2	
+3	#define DEBUG
+4	...
+
+Now compile the program according to the instructions above.
+Run the plugin again to see details on where the plugin is failing and why.
+If you still have trouble with this plugin, please feel free to contact us.
+
+########## LICENSE ###########
+##############################
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+################################################################################

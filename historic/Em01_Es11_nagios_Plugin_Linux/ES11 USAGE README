@@ -1,0 +1,129 @@
+################################################################################
+
+Esensors ES11 Plugin (C VERSION).
+Last Updated: May 30, 2008
+Description: This plugin reports the ES11 Flood Sensor status.
+		 This plugin is written mainly for Nagios, but can be
+		 easily used for other software too.
+
+File name: check_es11.c
+
+Language: C
+
+OS: Unix/Linux
+
+Contact Us:
+4240 Ridge Lea Rd
+Suite 37
+Amherst, NY 14226
+
+Tel: (716) 837-8719
+Fax: (716) 837-8740
+Email: TechHelp@eEsensors.com
+
+########## COMPILE ###########
+##############################
+
+To compile, you will need GNU C compiler 'gcc' and all standard libraries 
+installed. The gcc version we tested with is 3.2.2 but it should be able to 
+work with any other versions, too.
+
+At the prompt:
+ gcc check_es11.c -o check_es11
+
+This will create the executable 'check_es11'. Place this executable into your
+plugins directory. (For Nagios, this is usually /usr/local/nagios/libexec )
+
+########## BASIC USAGE #######
+##############################
+
+To use the plugin: 
+ check_es11 [hostname] [W/R] [6-digit Device ID]
+
+W is for Flood Sensor Status
+R is for resetting the latch after a "Wet" status is detected and latched. It is
+  ignored if the ES11 was not setup to latch on Wet status (see the manual on how
+  to latch Wet status).
+
+If you enter only the hostname and nothing else, then the output will be data from
+the Websensor. However, it is not recommended to use this plugin to obtain HVAC
+data from the Websensor itself. Use the check_em01.c plugin instead.
+  
+Examples:
+This will return ES11 data: 
+ check_es11 192.168.0.2 W 300100
+Sample Output:
+ OK ES11 Water Sensor Dry
+
+This will reset the latch:
+ check_es11 192.168.0.2 R 300100
+Sample Output:
+ Latch Reset. Water Sensor Now Dry
+
+########## NAGIOS INSTALLATION ######
+#####################################
+Requirements:
+· EM01B and ES06 Websensor deployed on your network
+· ES11 plugin script (check_es11.c)
+· GNU C compiler (GCC) version 3 and above.
+· Nagios version 2.7 (this guide can also be used for Nagios version 1.x)
+
+1. Compile the plugin script using gcc
+    $ gcc check_es11.c –o check_es11
+2. Copy the script to Nagios plugins directory. 
+   The default is /usr/local/nagios/libexec but may vary according to 
+   your installation.
+3. Copy the configuration file (es11.cfg) to your Nagios 
+   configuration directory. The default is /usr/local/nagios/etc.
+4. Edit main Nagios configuration file. Usually, this is the file nagios.cfg:
+    $ vi /usr/local/nagios/etc/nagios.cfg
+   Add the following lines to your main configuration file
+    # Esensors configuration files
+    cfg_file=/usr/local/nagios/etc/esensors.cfg
+	cfg_file=/usr/local/nagios/etc/websensors.cfg
+	cfg_file=/usr/local/nagios/etc/es11.cfg
+5. Edit es11.cfg file:
+    $ vi /usr/local/nagios/etc/es11.cfg
+   . You may edit the Sensor Polling Services command arguments to reflect your
+     deployment environment (i.e. set low/high thresholds for alerts to be sent)
+6. Retart Nagios
+    $ service nagios restart
+Alternatively, you may execute the following commands too:
+    $ kill `cat /usr/local/nagios/var/nagios.lock`
+    $ /usr/local/nagios/bin/nagios -d /usr/local/nagios/etc/nagios.cfg
+7. Verify that the ES06 appears as a service in your Nagios website.
+   
+   
+########## DEBUGGING #########
+##############################
+
+If you are having trouble with the plugin, you can try to debug it.
+Edit the file check_em01.c and change line #3 from '#undef' to '#define'
+
+1	/* Print Debug Info....
+2	
+3	#define DEBUG
+4	...
+
+Now compile the program according to the instructions above.
+Run the plugin again to see details on where the plugin is failing and why.
+If you still have trouble with this plugin, please feel free to contact us.
+
+########## LICENSE ###########
+##############################
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+################################################################################

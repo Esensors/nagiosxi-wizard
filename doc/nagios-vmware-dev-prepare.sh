@@ -1,6 +1,6 @@
-﻿#!/bin/sh
+#!/bin/sh
 
-yum -y install nginx mc telnet
+yum -y install nginx mc telnet git tree
 cat /etc/nginx/conf.d/default.conf | sed "s%listen.*%listen 8080 default_server;%" > /tmp/nginx.conf
 mv -f /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.`date +%s`.orig
 mv -f /tmp/nginx.conf /etc/nginx/conf.d/default.conf
