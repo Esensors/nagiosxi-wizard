@@ -420,7 +420,7 @@ function esensors_websensor_configwizard_func($mode = "", $inargs = null, &$outa
                     "cl" => "temp_critical_low",
                     "ch" => "temp_critical_high",
                     "service_description" => "Temperature",
-                    "xml_check_command" => "check_em08_temp",
+                    "xml_check_command" => "check_esensor_temp",
                     "text_check_command" => "check_esensor_temp_txt",
                 ),
                 "humidity" => array (
