@@ -7,9 +7,10 @@ Following files have to be changed in order to add new sensor:
 * esensors-websensor/esensors-websensor.inc.php
 
 ### plugins/check-esensors.pl
-This is the script which implements all the checks. It contains
-the following structure which defines all sensors (and corresponding
-XML node names):
+This is the script which actually implements all the checks.
+
+It contains the following structure which defines all sensors
+(and corresponding XML node names):
 ```
 my $sensors = {
     'temperature'  => { 'name' => 'Temperature',  'flag' => 'sht',  'value' => 'tm0', 'uom' => 'tun0', },
@@ -24,7 +25,7 @@ my $sensors = {
 
 ### esensors-websensor.inc.php
 Esensors wizard user interface. Contains the following structure
-which maps UI elements to service checks:
+which maps UI elements to Nagios service checks:
 ```
             $sensors = array (
                 "temp" => array (
@@ -86,6 +87,24 @@ which maps UI elements to service checks:
 ```
 
 ### templates/websensor.cfg
-Contains templates of Nagios service checks. Every check defined
-in esensors-websensor.inc.php (in xml_check_command or txt_check_command)
-should be define in this file.
+Contains templates of Nagios service checks.
+
+Every service check links check defined in Nagios wizard UI
+(esensors-websensor.inc.php, either xml_check_command or txt_check_command)
+with a command line used to implement actual check.
+
+Sample xml_check_command:
+```
+define command{
+  command_name check_esensor_temp
+  command_line $USER1$/check_esensor.pl --host $HOSTADDRESS$ --port $ARG3$ --device xml --sensor temp --limits="$ARG1$,$ARG2$" --timeout default $ARG4$
+  }
+```
+
+Sample txt_check_command:
+```
+define command{
+  command_name check_esensor_temp_txt
+  command_line $USER1$/check_esensor.pl --host $HOSTADDRESS$ --port $ARG3$ --device em01 --sensor temp --limits="$ARG1$,$ARG2$" --timeout default
+  }
+```
