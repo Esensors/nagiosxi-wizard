@@ -503,6 +503,7 @@ sub read_sensor {
         if ($@) {
             die $@ if $didalarm != 1;
             &debug("timeout $timeout expired during sensor read\n");
+            &debug("data received from sensor: $response\n");
             print "Unable to read sensor (timeout $timeout seconds expired)\n";
             exit($ERRORS{'UNKNOWN'});
         }
@@ -513,6 +514,7 @@ sub read_sensor {
             #
             # https://github.com/pashol/nagios-checks/commit/31cdba775a226672207f92d2e9e5e3365ac88a54#diff-262e64bf9a35e13ebbec3d1c8ab6856b
             print "No values received from sensor\n";
+            &debug("data received from sensor: $response\n");
             exit($ERRORS{'UNKNOWN'});
         }
     }
