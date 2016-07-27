@@ -438,7 +438,7 @@ sub read_sensor {
         }
         else {
             if ($opt_dev) {
-                print $remote "GET /em01.html?123 HTTP/1.1\r\nUser-Agent: EsensorsPlugin\r\nHost: $host\r\nConnection: close\r\n\r\n";
+                print $remote "GET " . $opt_url . " HTTP/1.1\r\nUser-Agent: EsensorsPlugin\r\nHost: $host\r\nConnection: close\r\n\r\n";
             }
             else {
                 # HTTP/1.1 bug found by Fabrice Duley (Fabrice.Duley@alcatel.fr)
