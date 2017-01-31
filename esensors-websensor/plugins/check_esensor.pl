@@ -159,10 +159,10 @@ else {
 
 if (!$opt_url) {
     if ($opt_device eq 'em01') {
-        $opt_url = "/index.html?em345678";
+        $opt_url = "/ssettings.xml";
     }
     else {
-        $opt_url = "/ssetings.xml";
+        $opt_url = "/ssettings.xml";
     }
 }
 else {
@@ -207,6 +207,7 @@ if ($opt_device eq 'xml') {
             $condition = 'WARNING';
         }
         else {
+            push(@msgs, "OK $uctype (=" . $vals->{$sensors->{$opt_typ}->{'value'}} . ") - ");
             $condition = 'OK';
         }
     }
@@ -324,7 +325,7 @@ sub check_value {
         push(@msgs, "WARNING HIGH $uctype (>$w_hi) - ");
         return 'WARNING';
     }
-    
+    push(@msgs, "OK - ");    
     return 'OK';
 };
 
