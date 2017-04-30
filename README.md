@@ -1,6 +1,8 @@
 # nagiosxi-wizard
 
 ## Adding new sensors
+
+At the location /usr/local/nagiosxi/html/includes/configwizards/
 Following files have to be changed in order to add new sensor:
 * esensors-websensor/plugins/check-esensors.pl
 * esensors-websensor/templates/websensor.cfg
