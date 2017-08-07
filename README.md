@@ -8,6 +8,13 @@ Following files have to be changed in order to add new sensor:
 * esensors-websensor/templates/websensor.cfg
 * esensors-websensor/esensors-websensor.inc.php
 
+In some installations, the following steps may be needed as well.
+* Place the config file in /usr/local/nagios/etc/cfgrep/
+* Then in Core config manager you have to import the above file.
+* Copy the the check_esensor.pl file to /usr/local/nagios/libexec
+* Do a chown to apache and a chmod 0775 to set permissions. 
+
+
 ### plugins/check-esensors.pl
 This is the script which actually implements all the checks.
 
